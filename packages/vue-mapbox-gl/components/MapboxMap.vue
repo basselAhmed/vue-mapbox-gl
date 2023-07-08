@@ -252,13 +252,11 @@
 </script>
 
 <script setup>
-  import { ref, computed, onMounted, onUnmounted, provide } from 'vue';
+  import { ref, computed, onMounted, onUnmounted, provide, useAttrs } from 'vue';
   import { useEventsBinding, usePropsBinding } from '../composables/index.js';
 
-  const props = defineProps({
-    ...propsConfig,
-    extraOptions: { type: Object, default: () => ({}) },
-  });
+  const props = defineProps(propsConfig);
+  const attrs = useAttrs();
   const emit = defineEmits();
 
   const map = ref();
@@ -267,14 +265,14 @@
   const root = ref();
   const isLoaded = ref(false);
   const options = computed(() => {
-    const { accessToken, mapStyle: style, extraOptions, ...options } = props;
+    const { accessToken, mapStyle: style, ...options } = props;
 
     // Use current component's element if container is not set
     if (!options.container && root.value) {
       options.container = root.value;
     }
 
-    return { style, ...extraOptions, ...options };
+    return { style, ...options };
   });
 
   useEventsBinding(emit, map, events);
@@ -283,7 +281,7 @@
   onMounted(() => {
     mapboxgl.accessToken = props.accessToken;
 
-    map.value = new mapboxgl.Map(options.value);
+    map.value = new mapboxgl.Map({ ...options.value, ...attrs });
     map.value.on('load', () => {
       isLoaded.value = true;
     });
