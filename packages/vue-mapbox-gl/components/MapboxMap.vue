@@ -255,7 +255,10 @@
   import { ref, computed, onMounted, onUnmounted, provide } from 'vue';
   import { useEventsBinding, usePropsBinding } from '../composables/index.js';
 
-  const props = defineProps(propsConfig);
+  const props = defineProps({
+    ...propsConfig,
+    extraOptions: { type: Object, default: () => ({}) },
+  });
   const emit = defineEmits();
 
   const map = ref();
@@ -264,14 +267,14 @@
   const root = ref();
   const isLoaded = ref(false);
   const options = computed(() => {
-    const { accessToken, mapStyle: style, ...options } = props;
+    const { accessToken, mapStyle: style, extraOptions, ...options } = props;
 
     // Use current component's element if container is not set
     if (!options.container && root.value) {
       options.container = root.value;
     }
 
-    return { style, ...options };
+    return { style, ...extraOptions, ...options };
   });
 
   useEventsBinding(emit, map, events);
