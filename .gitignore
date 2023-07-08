@@ -22,7 +22,6 @@ yarn-error.log*
 
 # Build files
 .env
-/dist/
 /packages/docs/.vitepress/dist/
 /packages/docs/.vitepress/cache
 /packages/demo/.nuxt/

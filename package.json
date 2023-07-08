@@ -29,5 +29,8 @@
     "esbuild": "^0.16.17",
     "patch-package": "^6.5.1",
     "unplugin-vue": "^4.0.1"
-  }
+  },
+  "precommit": [
+    "build"
+  ]
 }
