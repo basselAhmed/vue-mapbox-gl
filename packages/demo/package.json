@@ -1,5 +1,5 @@
 {
-  "name": "@studiometa/vue-mapbox-gl-demo",
+  "name": "@basselahmed/vue-mapbox-gl-demo",
   "version": "2.1.1",
   "scripts": {
     "dev": "nuxt dev",
